@@ -1,11 +1,12 @@
 "Code has its source in repository: https://github.com/Praveenanand333/Snapchat-Filters/tree/main"
 
-import cv2
 import itertools
-import numpy as np
-import mediapipe as mp
-import matplotlib.pyplot as plt
 import warnings
+
+import cv2
+import matplotlib.pyplot as plt
+import mediapipe as mp
+import numpy as np
 
 warnings.filterwarnings("ignore")
 
