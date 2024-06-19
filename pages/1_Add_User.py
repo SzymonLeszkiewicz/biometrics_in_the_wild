@@ -1,5 +1,5 @@
 import os.path
-
+import numpy as np
 import cv2
 import streamlit as st
 from PIL import Image
@@ -20,20 +20,24 @@ def add_user_images(user_name: str, user_images: list[bytes]):
         os.makedirs(user_directory_path, exist_ok=True)
 
     for user_image in user_images:
-        Image.open(user_image).save(os.path.join(user_directory_path, user_image.name))
-        prefix = user_image.name.split(".")[0]
+        path = os.path.join(user_directory_path, user_image.name)
+        cv2.imwrite(path, cv2.imdecode(np.frombuffer(user_image.read(), np.uint8), cv2.IMREAD_COLOR))
 
-        resized = resize_image(os.path.join(user_directory_path, user_image.name))
+        image = cv2.imread(path)
+        prefix = path.split(".")[-2].split(os.sep)[-1]
+        st.write(prefix)
+
+        resized = resize_image(path)
         cv2.imwrite(os.path.join(user_directory_path, f"{prefix}_resized.jpg"), resized)
 
         mustache = apply_mustache_to_image(
-            os.path.join(user_directory_path, user_image.name),
+            path,
             "data_augmentation/filters/mustache1.png",
         )
         cv2.imwrite(os.path.join(user_directory_path, f"{prefix}_mustache.jpg"), mustache)
 
         glasses = apply_glasses_to_image(
-            os.path.join(user_directory_path, user_image.name),
+            path,
             "data_augmentation/filters/glasses1.png",
         )
         cv2.imwrite(os.path.join(user_directory_path, f"{prefix}_glasses.jpg"), glasses)
