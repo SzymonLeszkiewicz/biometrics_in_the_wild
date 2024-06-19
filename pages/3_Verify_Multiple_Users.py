@@ -7,6 +7,8 @@ from verification_system import VerificationSystem
 
 st.set_page_config(page_title="Verify Multiple User", page_icon="👁️")
 
+database_path = os.path.join("data", "database_3")
+
 
 @st.cache_data
 def verify_multiple_users(incoming_users_path: str):
@@ -19,7 +21,14 @@ def verify_multiple_users(incoming_users_path: str):
 
 
 face_verification_system = VerificationSystem(
-    database_path=os.path.join("data", "database")
+    database_path=database_path,
+    example_initalizing_image_path=os.path.join(
+        database_path,
+        "incoming_users",
+        "authorized_users",
+        "1",
+        "000023_glasses.jpg",
+    ),
 )
 
 st.title("Verify Multiple Users")

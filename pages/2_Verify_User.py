@@ -9,6 +9,9 @@ from verification_system import VerificationSystem
 st.set_page_config(page_title="Verify User", page_icon="👁️")
 
 
+database_path = os.path.join("data", "database_3")
+
+
 def verify_user(user_name: str, user_image: bytes) -> bool:
     column_left, column_right = st.columns(2)
 
@@ -35,9 +38,7 @@ def verify_user(user_name: str, user_image: bytes) -> bool:
 
 
 def show_user_images(user_name: str):
-    user_directory_path = os.path.join(
-        "data", "database", "authorized_users", user_name
-    )
+    user_directory_path = os.path.join(database_path, "authorized_users", user_name)
     user_images_path = os.listdir(user_directory_path)
 
     st.write("# User Images")
@@ -65,7 +66,14 @@ def show_user_images(user_name: str):
 st.title("Verify User")
 
 face_verification_system = VerificationSystem(
-    database_path=os.path.join("data", "database")
+    database_path=database_path,
+    example_initalizing_image_path=os.path.join(
+        database_path,
+        "incoming_users",
+        "authorized_users",
+        "1",
+        "000023_glasses.jpg",
+    ),
 )
 
 uploaded_name = st.text_input(label="Username")
