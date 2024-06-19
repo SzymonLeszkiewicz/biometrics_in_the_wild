@@ -131,7 +131,6 @@ def overlay(image, filter_img, face_landmarks, face_part, INDEXES, display=True)
 def apply_glasses_to_image(image_path, glasses_path):
     # Load the image and the glasses
     image = cv2.imread(image_path)
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     glasses = cv2.imread(glasses_path)
 
     # Detect facial landmarks

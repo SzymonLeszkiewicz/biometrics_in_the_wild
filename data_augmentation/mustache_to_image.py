@@ -140,7 +140,6 @@ def overlay(image, filter_img, face_landmarks, face_part, INDEXES, display=True)
 def apply_mustache_to_image(image_path, mustache_path):
     # Load the image and the mustache
     image = cv2.imread(image_path)
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     mustache = cv2.imread(mustache_path)
 
     # Detect facial landmarks
