@@ -4,7 +4,9 @@ import streamlit as st
 from PIL import Image
 
 from verification_system import VerificationSystem
-
+from data_augmentation.resize_image import resize_image
+from data_augmentation.mustache_to_image import apply_mustache_to_image
+from data_augmentation.glasses_to_image import apply_glasses_to_image
 st.set_page_config(page_title="Add User", page_icon="👁️")
 
 
@@ -17,6 +19,23 @@ def add_user_images(user_name: str, user_images: list[bytes]):
 
     for user_image in user_images:
         Image.open(user_image).save(os.path.join(user_directory_path, user_image.name))
+        prefix = user_image.name.split(".")[0]
+
+        resized = resize_image(os.path.join(user_directory_path, user_image.name))
+        Image.fromarray(resized).save(os.path.join(user_directory_path, f"{prefix}_resized.jpg"))
+
+        mustache = apply_mustache_to_image(
+            os.path.join(user_directory_path, user_image.name),
+            "data_augmentation/filters/mustache1.png",
+        )
+        Image.fromarray(mustache).save(os.path.join(user_directory_path, f"{prefix}_mustache.jpg"))
+
+        glasses = apply_glasses_to_image(
+            os.path.join(user_directory_path, user_image.name),
+            "data_augmentation/filters/glasses1.png",
+        )
+        Image.fromarray(glasses).save(os.path.join(user_directory_path, f"{prefix}_glasses.jpg"))
+
 
 
 def show_user_images(user_name: str):
